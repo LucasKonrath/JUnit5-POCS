@@ -1,106 +1,24 @@
-package com.lucasdamaceno.junit5poc;
+package com.lucasdamaceno.junit5poc.parameterized;
 
+import com.lucasdamaceno.junit5poc.converter.SlashyDateConverter;
 import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
-import org.junit.jupiter.api.condition.EnabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.*;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Random;
-import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.assumingThat;
 
-@SpringBootTest
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class Junit5PocApplicationTests {
-
-	@Test
-	void context_loads() {
-	}
-
-	@Test
-	void test_assumption(){
-		//Will always execute this.
-		assumingThat(1 > 0,
-				() -> assertTrue(true));
-
-		//Will never execute this code.
-		assumingThat(1 < 0,
-				() -> assertTrue(false));
-	}
-
-	@Test
-	public void assert_exception(){
-		assertThrows(NullPointerException.class,
-				() -> {
-					throw new NullPointerException();
-				});
-	}
-
-	@Test
-	public void assert_timeout(){
-		Supplier<String> supplier = () -> {
-			try {
-				Thread.sleep(2000l);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-
-			return "Done";
-		};
-
-		//This will pass. It waits 2500 milliseconds for response from the supplier.
-		Assertions.assertTimeout(Duration.ofMillis(2500), supplier::get);
-
-		//This will fail, as it only waits 20ms.
-		Assertions.assertTimeout(Duration.ofMillis(20), supplier::get);
-	}
-
-	@Test
-	public void assert_group_all(){
-		assertAll("Numbers are positive",
-				() -> assertTrue(2 > 0),
-				() -> assertTrue(5 > 0),
-				() -> assertTrue(-2 > 0));
-	}
-
-	@Test
-	@EnabledOnOs({OS.MAC})
-	public void test_mac_exclusive_features(){
-		assertTrue(true);
-	}
-
-	@Test
-	@EnabledOnOs({OS.WINDOWS})
-	public void test_windows_exclusive_features(){
-		assertTrue(true);
-	}
-
-	@Test
-	@EnabledIfEnvironmentVariable(named = "profile", matches = "demo")
-	public void runs_only_on_demo(){
-		assertTrue(true);
-	}
-
-	@Test
-	@DisabledIfEnvironmentVariable(named = "profile", matches = "demo")
-	public void doesnt_run_on_demo(){
-		assertTrue(true);
-	}
+class ParameterizedTests {
 
 	@RepeatedTest(
 			value = 10

@@ -1,4 +1,4 @@
-package com.lucasdamaceno.junit5poc;
+package com.lucasdamaceno.junit5poc.converter;
 
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
@@ -6,7 +6,7 @@ import org.junit.jupiter.params.converter.ArgumentConverter;
 
 import java.time.LocalDate;
 
-class SlashyDateConverter implements ArgumentConverter {
+public class SlashyDateConverter implements ArgumentConverter {
 
     @Override
     public Object convert(Object source, ParameterContext context)
